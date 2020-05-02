@@ -116,4 +116,42 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		  return actors;
 	}
 
+	@Override
+	public List<Film> findFilmByKeyword(String keyword) throws SQLException {
+		List<Film> films = new ArrayList<>();
+		Film film = null;
+		String user = "student";
+		String pass = "student";
+		    Connection conn = DriverManager.getConnection(URL, user, pass);
+		// create the query string, with bind variable place holders (?'s):
+		String sql = "SELECT * FROM film WHERE title LIKE ? OR description like ?";
+		// compile and optimize the sql into the database:
+		PreparedStatement pst = conn.prepareStatement(sql);
+		// bind the sent in parameter value (using searchWordParam for this example, your mileage may vary)
+		// effectively assigning the value to the positional bind variable place holders :
+		pst.setString(1, "%" + keyword + "%");
+		pst.setString(2, "%" + keyword + "%");
+		// execute the query, and grab its resulting set of film(s):
+		ResultSet rs = pst.executeQuery();
+		// process the result set:
+		while (rs.next()){
+			
+			film = new Film();
+			film.setId(rs.getInt("id"));
+			film.setTitle(rs.getString("title"));
+			film.setDescription(rs.getString("description"));
+			film.setReleaseYear(rs.getInt("release_year"));
+			film.setLanguageId(rs.getInt("language_id"));
+			film.setRentalDuration(rs.getInt("rental_duration"));
+			film.setRentalRate(rs.getDouble("rental_rate"));
+			film.setLength(rs.getInt("length"));
+			film.setReplacementCost(rs.getDouble("replacement_cost"));
+			film.setRating(rs.getString("rating"));
+			film.setSpecialFeatures(rs.getString("special_features"));
+		    film.setActors(findActorsByFilmId(rs.getInt("id")));
+			films.add(film);
+		}
+		return films;
+	}
+
 }

@@ -8,6 +8,7 @@ public class Film {
 	private String description;
 	private Integer releaseYear;
 	private int languageId;
+	private String languageString; //getters and settters, tostring, equals and hashcode
 	private int rentalDuration;
 	private double rentalRate;
 	private Integer length;
@@ -168,13 +169,8 @@ public class Film {
 			return false;
 		return true;
 	}
-	@Override
-	public String toString() {
-		return "Film [id=" + id + ", title=" + title + ", description=" + description + ", releaseYear=" + releaseYear
-				+ ", languageId=" + languageId + ", rentalDuration=" + rentalDuration + ", rentalRate=" + rentalRate
-				+ ", length=" + length + ", replacementCost=" + replacementCost + ", rating=" + rating
-				+ ", specialFeatures=" + specialFeatures + "]";
-	}
+
+	
 
 	public List<Actor> getActors() {
 		return actors;
@@ -182,6 +178,12 @@ public class Film {
 
 	public void setActors(List<Actor> actors) {
 		this.actors = actors;
+	}
+
+	@Override
+	public String toString() {
+		return "Film title: " + title + "\nDescription: " + description + "\nRelease Year: " + releaseYear + "\nRating: "
+				+ rating;
 	}
 	
 	
