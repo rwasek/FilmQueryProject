@@ -98,6 +98,15 @@ public class Film {
 	public void setSpecialFeatures(String specialFeatures) {
 		this.specialFeatures = specialFeatures;
 	}
+	
+	public String getLanguageString() {
+		return languageString;
+	}
+
+	public void setLanguageString(String languageString) {
+		this.languageString = languageString;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -183,7 +192,7 @@ public class Film {
 	@Override
 	public String toString() {
 		return "Film title: " + title + "\nDescription: " + description + "\nRelease Year: " + releaseYear + "\nRating: "
-				+ rating;
+				+ rating + "\nLanguage: " + languageString;
 	}
 	
 	

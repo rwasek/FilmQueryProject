@@ -51,6 +51,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			film.setRating(rs.getString("rating"));
 			film.setSpecialFeatures(rs.getString("special_features"));
 			film.setActors(findActorsByFilmId(filmId));
+			film.setLanguageString(languageFromId(filmId));
 
 		}
 		rs.close();
@@ -120,20 +121,20 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public List<Film> findFilmByKeyword(String keyword) throws SQLException {
 		List<Film> films = new ArrayList<>();
 		Film film = null;
+		
 		String user = "student";
 		String pass = "student";
-		    Connection conn = DriverManager.getConnection(URL, user, pass);
-		// create the query string, with bind variable place holders (?'s):
+		Connection conn = DriverManager.getConnection(URL, user, pass);
+		
 		String sql = "SELECT * FROM film WHERE title LIKE ? OR description like ?";
-		// compile and optimize the sql into the database:
-		PreparedStatement pst = conn.prepareStatement(sql);
-		// bind the sent in parameter value (using searchWordParam for this example, your mileage may vary)
-		// effectively assigning the value to the positional bind variable place holders :
-		pst.setString(1, "%" + keyword + "%");
-		pst.setString(2, "%" + keyword + "%");
-		// execute the query, and grab its resulting set of film(s):
-		ResultSet rs = pst.executeQuery();
-		// process the result set:
+		
+		PreparedStatement ps = conn.prepareStatement(sql);
+	
+		ps.setString(1, "%" + keyword + "%");
+		ps.setString(2, "%" + keyword + "%");
+		
+		ResultSet rs = ps.executeQuery();
+		
 		while (rs.next()){
 			
 			film = new Film();
@@ -149,9 +150,38 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			film.setRating(rs.getString("rating"));
 			film.setSpecialFeatures(rs.getString("special_features"));
 		    film.setActors(findActorsByFilmId(rs.getInt("id")));
+		    film.setLanguageString(languageFromId(rs.getInt("id")));
 			films.add(film);
 		}
+		rs.close();
+	    ps.close();
+	    conn.close();
 		return films;
+	}
+
+	@Override
+	public String languageFromId(int filmId) throws SQLException {
+		String language = null;
+		
+		String user = "student";
+		String pass = "student";
+		Connection conn = DriverManager.getConnection(URL, user, pass);
+		    
+		String sql = "SELECT language.name FROM language"
+		    		+ " JOIN film ON film.language_id = language.id WHERE film.id = ?";
+		
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1, filmId);
+		
+		ResultSet rs = ps.executeQuery();
+		
+		while (rs.next()) {
+			language = rs.getString("language.name");
+		}
+		rs.close();
+	    ps.close();
+	    conn.close();
+		return language;
 	}
 
 }
