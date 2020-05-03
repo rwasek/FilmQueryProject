@@ -19,23 +19,23 @@ public class FilmQueryApp {
 		app.launch();
 	}
 
-  private void test() throws SQLException {
-//    Film film = db.findFilmById(1);
-//    System.out.println(film);
-//    List<Actor> actors = film.getActors();
-//    for (Actor actor : actors) {
-//		System.out.println(actor);
-//	}
-//    
-////    Actor actor = db.findActorById(1);
-////    System.out.println(actor);
-//    
-////    List<Actor> actors = db.findActorsByFilmId(1);
-////    System.out.println(actors);
-	  
-//	  String language = db.languageFromId(10);
-//	  System.out.println(language);
-  }
+//  private void test() throws SQLException {
+////    Film film = db.findFilmById(1);
+////    System.out.println(film);
+////    List<Actor> actors = film.getActors();
+////    for (Actor actor : actors) {
+////		System.out.println(actor);
+////	}
+////    
+//////    Actor actor = db.findActorById(1);
+//////    System.out.println(actor);
+////    
+//////    List<Actor> actors = db.findActorsByFilmId(1);
+//////    System.out.println(actors);
+//	  
+////	  String language = db.languageFromId(10);
+////	  System.out.println(language);
+//  }
 
 	private void launch() throws SQLException {
 		Scanner input = new Scanner(System.in);
@@ -46,9 +46,7 @@ public class FilmQueryApp {
 	}
 
 	private void startUserInterface(Scanner input) throws SQLException {
-		// switch menu for test methods
 		boolean exit = false;
-		Scanner kb = input;
 
 		while (!exit) {
 			System.out.println("Menu:");
@@ -56,17 +54,17 @@ public class FilmQueryApp {
 			System.out.println("2) Look up a film by a search keyword");
 			System.out.println("3) Exit the application");
 			System.out.print("Entry: ");
-			int choice = kb.nextInt();
-			kb.nextLine();
+			int choice = input.nextInt();
+			input.nextLine();
 			
 			switch (choice) {
 
 			case 1:
-				filmById(kb);
+				filmById(input);
 				break;
 
 			case 2:
-				filmByKeyword(kb);
+				filmByKeyword(input);
 				break;
 
 			case 3:
@@ -78,11 +76,10 @@ public class FilmQueryApp {
 	}
 
 	private void filmById(Scanner input) throws SQLException {
-		Scanner kb = input;
 		System.out.println("\nPlease enter a film ID: ");
 		System.out.println("Entry: ");
-		int filmId = kb.nextInt();
-		kb.nextLine();
+		int filmId = input.nextInt();
+		input.nextLine();
 		Film film = db.findFilmById(filmId);
 
 		if (film != null) {
@@ -100,10 +97,9 @@ public class FilmQueryApp {
 	}
 
 	private void filmByKeyword(Scanner input) throws SQLException {
-		Scanner kb = input;
 		System.out.println("\nPlease enter a film description: ");
 		System.out.println("Entry: ");
-		String filmDesc = kb.next();
+		String filmDesc = input.next();
 
 		List<Film> films = db.findFilmByKeyword(filmDesc);
 

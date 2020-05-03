@@ -7,12 +7,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 import com.skilldistillery.filmquery.entities.Actor;
 import com.skilldistillery.filmquery.entities.Film;
 
 public class DatabaseAccessorObject implements DatabaseAccessor {
+	
+	private String user = "student";
+	private String pass = "student";
 
 	private static final String URL = "jdbc:mysql://localhost:3306/sdvid?useSSL=false";
 
@@ -27,8 +30,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	@Override
 	public Film findFilmById(int filmId) throws SQLException {
 		Film film = null;
-		String user = "student";
-		String pass = "student";
+		
 		Connection conn = DriverManager.getConnection(URL, user, pass);
 
 		String sql = "SELECT * FROM film WHERE id = ?";
@@ -66,9 +68,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public Actor findActorById(int actorId) throws SQLException {
 		Actor actor = null;
 
-		String user = "student";
-		String pass = "student";
-
 		Connection conn = DriverManager.getConnection(URL, user, pass);
 		String sql = "SELECT id, first_name, last_name FROM actor WHERE id = ?";
 		PreparedStatement ps = conn.prepareStatement(sql);
@@ -92,8 +91,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	@Override
 	public List<Actor> findActorsByFilmId(int filmId) throws SQLException {
 		List<Actor> actors = new ArrayList<>();
-		String user = "student";
-		String pass = "student";
+
 		    Connection conn = DriverManager.getConnection(URL, user, pass);
 		    String sql = "SELECT actor.* " + 
 		    		"FROM actor JOIN film_actor ON film_actor.actor_id = actor.id " + 
@@ -122,8 +120,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		List<Film> films = new ArrayList<>();
 		Film film = null;
 		
-		String user = "student";
-		String pass = "student";
 		Connection conn = DriverManager.getConnection(URL, user, pass);
 		
 		String sql = "SELECT * FROM film WHERE title LIKE ? OR description like ?";
@@ -162,9 +158,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	@Override
 	public String languageFromId(int filmId) throws SQLException {
 		String language = null;
-		
-		String user = "student";
-		String pass = "student";
+
 		Connection conn = DriverManager.getConnection(URL, user, pass);
 		    
 		String sql = "SELECT language.name FROM language"
